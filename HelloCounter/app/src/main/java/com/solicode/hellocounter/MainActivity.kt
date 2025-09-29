@@ -17,19 +17,12 @@ import com.solicode.hellocounter.ui.MainScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MaterialTheme {
-                MainScreen()
-            }
-        }
+        setContent { MaterialTheme { MainScreen() } }
     }
 }
 
-// 🔹 Preview intégrée (affichage direct dans Android Studio)
 @Preview(showBackground = true, widthDp = 360)
 @Composable
 fun PreviewMainScreen() {
-    MaterialTheme {
-        MainScreen()
-    }
+    MaterialTheme { MainScreen() }
 }
