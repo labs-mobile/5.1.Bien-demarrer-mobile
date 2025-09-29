@@ -2,6 +2,7 @@ package com.solicode.hellocounter.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -21,8 +22,13 @@ import com.solicode.hellocounter.R
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
     var name by remember { mutableStateOf("") }
-    var greeting by remember { mutableStateOf<String?>(null) }
+    var greetingName by remember { mutableStateOf<String?>(null) }
     var count by remember { mutableStateOf(0) }
+
+    // 🔹 Préparer les textes d’accessibilité (utilisés dans semantics)
+    val decrementCd = stringResource(R.string.cd_decrement)
+    val incrementCd = stringResource(R.string.cd_increment)
+    val counterCd = stringResource(R.string.cd_counter_value, count)
 
     Column(
         modifier = modifier
@@ -39,7 +45,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
             label = { Text(stringResource(R.string.label_firstname)) },
             placeholder = { Text(stringResource(R.string.ph_firstname)) },
             singleLine = true,
-            keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions.Default.copy(
+            keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done
             ),
             modifier = Modifier.fillMaxWidth().testTag("tf_firstname")
@@ -48,9 +54,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
         // 2) Bouton Dire bonjour
         Button(
             onClick = {
-                greeting = if (name.isNotBlank())
-                    stringResource(R.string.msg_greeting, name.trim())
-                else null
+                greetingName = name.takeIf { it.isNotBlank() }?.trim()
             },
             enabled = name.isNotBlank(),
             modifier = Modifier.fillMaxWidth()
@@ -59,8 +63,13 @@ fun MainScreen(modifier: Modifier = Modifier) {
         }
 
         // 3) Message
-        if (!greeting.isNullOrBlank()) {
-            AssistChip(onClick = { }, label = { Text(greeting!!) })
+        if (greetingName != null) {
+            AssistChip(
+                onClick = { },
+                label = {
+                    Text(stringResource(R.string.msg_greeting, greetingName!!))
+                }
+            )
         }
 
         // 4) Titre compteur
@@ -79,7 +88,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 enabled = count > 0,
                 modifier = Modifier
                     .size(48.dp)
-                    .semantics { contentDescription = stringResource(R.string.cd_decrement) }
+                    .semantics { contentDescription = decrementCd }
             ) {
                 Icon(Icons.Filled.Remove, contentDescription = null)
             }
@@ -89,14 +98,14 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .widthIn(min = 40.dp)
-                    .semantics { contentDescription = stringResource(R.string.cd_counter_value, count) }
+                    .semantics { contentDescription = counterCd }
             )
 
             IconButton(
                 onClick = { count++ },
                 modifier = Modifier
                     .size(48.dp)
-                    .semantics { contentDescription = stringResource(R.string.cd_increment) }
+                    .semantics { contentDescription = incrementCd }
             ) {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }

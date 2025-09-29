@@ -11,40 +11,25 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-
+import com.solicode.hellocounter.ui.MainScreen
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { App() }
-    }
-}
-
-@Composable
-fun App() {
-    MaterialTheme {
-        Greeting()
-
-    }
-}
-
-@Composable
-fun Greeting() {
-    var count by remember { mutableStateOf(0) }
-
-    // Box = conteneur qui permet d'aligner son contenu
-    Box(
-        modifier = Modifier.fillMaxSize(),              // occupe tout l'écran
-        contentAlignment = Alignment.Center             // centre le contenu
-    ) {
-        Button(onClick = { count++ }) {
-            Text("Hello, count = $count")
+        setContent {
+            MaterialTheme {
+                MainScreen()
+            }
         }
     }
 }
-@Preview(showBackground = true)
+
+// 🔹 Preview intégrée (affichage direct dans Android Studio)
+@Preview(showBackground = true, widthDp = 360)
 @Composable
-fun PreviewApp() {
-    App()
+fun PreviewMainScreen() {
+    MaterialTheme {
+        MainScreen()
+    }
 }
