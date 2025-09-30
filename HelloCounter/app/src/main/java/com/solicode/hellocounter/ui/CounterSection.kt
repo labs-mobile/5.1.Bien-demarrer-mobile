@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -15,9 +16,8 @@ import com.solicode.hellocounter.R
 
 @Composable
 fun CompteurSection(modifier: Modifier = Modifier) {
-    var count by remember { mutableStateOf(0) }
+    var count by rememberSaveable { mutableStateOf(0) }
 
-    // Préparer les textes a11y dans le contexte @Composable
     val decrementCd = stringResource(R.string.cd_decrement)
     val incrementCd = stringResource(R.string.cd_increment)
     val counterCd   = stringResource(R.string.cd_counter_value, count)
